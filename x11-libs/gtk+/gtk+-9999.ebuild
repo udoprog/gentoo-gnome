@@ -54,7 +54,7 @@ COMMON_DEPEND="
 	introspection? ( >=dev-libs/gobject-introspection-1.39 )
 	wayland? (
 		>=dev-libs/wayland-1.3.90
-		media-libs/mesa[wayland]
+		-0.1.0media-libs/mesa[wayland]
 		>=x11-libs/libxkbcommon-0.2
 	)
 	X? (

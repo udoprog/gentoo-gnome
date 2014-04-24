@@ -15,7 +15,9 @@ HOMEPAGE="http://git.gnome.org/browse/mutter/"
 
 LICENSE="GPL-2+"
 SLOT="0"
-IUSE="+introspection test"
+# XXX: wayland support currently cannot be disabled in mutter.
+#      https://bugzilla.gnome.org/show_bug.cgi?id=728185
+IUSE="+introspection test -wayland"
 if [[ ${PV} = 9999 ]]; then
 	KEYWORDS=""
 else
@@ -26,10 +28,10 @@ COMMON_DEPEND="
 	>=x11-libs/pango-1.2[X,introspection?]
 	>=x11-libs/cairo-1.10[X]
 	x11-libs/gdk-pixbuf:2[introspection?]
-	>=x11-libs/gtk+-3.9.11:3[X,introspection?]
+	>=x11-libs/gtk+-3.9.11:3[X,introspection?,wayland?]
 	>=dev-libs/glib-2.36.0:2
-	>=media-libs/clutter-1.14.3:1.0[introspection?]
-	>=media-libs/cogl-1.17.1:1.0=[introspection?]
+	>=media-libs/clutter-1.14.3:1.0[introspection?,wayland?]
+	>=media-libs/cogl-1.17.1:1.0=[introspection?,wayland?]
 	>=media-libs/libcanberra-0.26[gtk3]
 	>=x11-libs/startup-notification-0.7
 	>=x11-libs/libXcomposite-0.2
@@ -52,6 +54,12 @@ COMMON_DEPEND="
 	gnome-extra/zenity
 
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5 )
+
+	wayland? (
+		media-libs/clutter[evdev,wayland]
+		media-libs/cogl[wayland]
+		>=x11-base/xorg-server-1.15.99.902[wayland]
+	)
 "
 DEPEND="${COMMON_DEPEND}
 	>=dev-util/gtk-doc-am-1.15
@@ -68,7 +76,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	DOCS="AUTHORS ChangeLog HACKING MAINTAINERS NEWS README *.txt doc/*.txt"
+	DOCS="ChangeLog NEWS doc/*.txt"
 
 	# Compat with Ubuntu metacity themes (e.g. x11-themes/light-themes)
 	epatch "${FILESDIR}/${PN}-3.2.1-ignore-shadow-and-padding.patch"

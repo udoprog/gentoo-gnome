@@ -13,7 +13,7 @@ DESCRIPTION="Clutter is a library for creating graphical user interfaces"
 
 LICENSE="LGPL-2.1+ FDL-1.1+"
 SLOT="1.0"
-IUSE="debug doc gtk +introspection test" # evdev tslib
+IUSE="debug doc gtk +introspection test evdev -wayland" # tslib
 KEYWORDS="~alpha ~amd64 ~arm ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86"
 
 # NOTE: glx flavour uses libdrm + >=mesa-7.3
@@ -24,7 +24,7 @@ RDEPEND="
 	>=dev-libs/glib-2.37.3:2
 	>=dev-libs/atk-2.5.3[introspection?]
 	>=dev-libs/json-glib-0.12[introspection?]
-	>=media-libs/cogl-1.17.5:1.0=[introspection?,pango]
+	>=media-libs/cogl-1.17.5:1.0=[introspection?,pango,wayland?]
 	media-libs/fontconfig
 	>=x11-libs/cairo-1.12:=[glib]
 	>=x11-libs/pango-1.30[introspection?]
@@ -40,6 +40,7 @@ RDEPEND="
 
 	gtk? ( >=x11-libs/gtk+-3.3.18:3 )
 	introspection? ( >=dev-libs/gobject-introspection-0.9.6 )
+	evdev? ( >=dev-libs/libinput-0.1.0 )
 "
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.20
@@ -71,7 +72,7 @@ src_configure() {
 	# XXX: Conformance test suite (and clutter itself) does not work under Xvfb
 	# (GLX error blabla)
 	# XXX: Profiling, coverage disabled for now
-	# XXX: What about cex100/egl/osx/wayland/win32 backends?
+	# XXX: What about cex100/osx/win32 backends?
 	# XXX: evdev/tslib input seem to be experimental?
 	gnome2_src_configure \
 		--enable-xinput \
@@ -80,9 +81,7 @@ src_configure() {
 		--disable-maintainer-flags \
 		--disable-gcov \
 		--disable-cex100-backend \
-		--disable-egl-backend \
 		--disable-quartz-backend \
-		--disable-wayland-backend \
 		--disable-win32-backend \
 		--disable-tslib-input \
 		--disable-evdev-input \
@@ -90,7 +89,11 @@ src_configure() {
 		$(use_enable doc docs) \
 		$(use_enable gtk gdk-backend) \
 		$(use_enable introspection) \
-		$(use_enable test gdk-pixbuf)
+		$(use_enable test gdk-pixbuf) \
+		$(use_enable evdev evdev-input) \
+		$(use_enable wayland egl-backend) \
+		$(use_enable wayland wayland-compositor) \
+		$(use_enable wayland wayland-backend)
 }
 
 src_test() {

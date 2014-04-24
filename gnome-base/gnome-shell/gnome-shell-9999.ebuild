@@ -8,7 +8,10 @@ GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_{6,7} )
 
 inherit autotools eutils gnome2 multilib pax-utils python-r1 systemd
+
 if [[ ${PV} = 9999 ]]; then
+	# src/gvc is a submodule.
+	EGIT_HAS_SUBMODULES=true
 	inherit gnome2-live
 fi
 
@@ -17,7 +20,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
-IUSE="+bluetooth +i18n +networkmanager -openrc-force"
+IUSE="+bluetooth +i18n +networkmanager -openrc-force -wayland"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 if [[ ${PV} = 9999 ]]; then
 	KEYWORDS=""
@@ -54,7 +57,7 @@ COMMON_DEPEND="
 	>=sys-auth/polkit-0.100[introspection]
 	>=x11-libs/libXfixes-5.0
 	x11-libs/libXtst
-	>=x11-wm/mutter-3.12.1[introspection]
+	>=x11-wm/mutter-3.12.1[introspection,wayland?]
 	>=x11-libs/startup-notification-0.11
 
 	${PYTHON_DEPS}
