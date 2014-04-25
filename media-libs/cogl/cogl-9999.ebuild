@@ -15,7 +15,8 @@ DESCRIPTION="A library for using 3D graphics hardware to draw pretty pictures"
 HOMEPAGE="http://www.clutter-project.org/"
 
 LICENSE="MIT BSD"
-SLOT="1.0/20" # subslot = .so version
+# NOTE: git master uses 99 as minor version.
+SLOT="1.99/20" # subslot = .so version
 # doc and profile disable for now due bugs #484750 and #483332
 IUSE="examples gles2 gstreamer +introspection +opengl +pango test" # doc profile
 if [[ ${PV} = 9999 ]]; then
@@ -69,7 +70,7 @@ fi
 src_prepare() {
 	# Do not build examples
 	sed -e "s/^\(SUBDIRS +=.*\)examples\(.*\)$/\1\2/" \
-		-i Makefile.am Makefile.in || die
+		-i Makefile.am || die
 
 	if ! use test ; then
 		# For some reason the configure switch will not completely disable
@@ -77,7 +78,7 @@ src_prepare() {
 		sed -e "s/^\(SUBDIRS =.*\)test-fixtures\(.*\)$/\1\2/" \
     		-e "s/^\(SUBDIRS +=.*\)tests\(.*\)$/\1\2/" \
     		-e "s/^\(.*am__append.* \)tests\(.*\)$/\1\2/" \
-			-i Makefile.am Makefile.in || die
+			-i Makefile.am || die
 	fi
 
 	gnome2_src_prepare
