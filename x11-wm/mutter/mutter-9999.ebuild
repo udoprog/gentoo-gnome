@@ -68,7 +68,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	DOCS="AUTHORS ChangeLog HACKING MAINTAINERS NEWS README *.txt doc/*.txt"
+	DOCS="ChangeLog NEWS doc/*.txt"
 
 	# Compat with Ubuntu metacity themes (e.g. x11-themes/light-themes)
 	epatch "${FILESDIR}/${PN}-3.2.1-ignore-shadow-and-padding.patch"
