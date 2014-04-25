@@ -9,6 +9,8 @@ PYTHON_COMPAT=( python2_{6,7} )
 
 inherit autotools eutils gnome2 multilib pax-utils python-r1 systemd
 if [[ ${PV} = 9999 ]]; then
+	# XXX: ./src/gvc is now a submodule.
+	EGIT_HAS_SUBMODULES=true
 	inherit gnome2-live
 fi
 
