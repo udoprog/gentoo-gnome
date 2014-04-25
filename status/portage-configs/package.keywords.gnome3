@@ -39,7 +39,7 @@ dev-util/gnome-devel-docs
 gnome-base/dconf
 gnome-base/gconf
 gnome-base/gnome-desktop:2
-gnome-base/gnome-desktop:3/7
+gnome-base/gnome-desktop:3/10
 gnome-base/gnome-menus:0
 gnome-base/gnome-menus:3
 gnome-base/gnome-session
@@ -90,6 +90,7 @@ x11-libs/libnotify
 x11-libs/libwnck
 x11-libs/libxklavier
 x11-terms/gnome-terminal
+sci-geosciences/gnome-maps
 
 # GDM
 ~sys-auth/consolekit-0.4.5_p20120320
@@ -291,6 +292,7 @@ dev-libs/libcroco:0.6
 =x11-base/xorg-server-1.14*
 x11-wm/mutter
 gnome-base/gnome-shell
+gnome-base/gnome-shell-extensions
 
 # Gvfs
 gnome-base/libgdu
